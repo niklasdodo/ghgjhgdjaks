@@ -1,0 +1,38 @@
+{
+  "name": "KopfLog – Kopfschmerz-Tagebuch",
+  "short_name": "KopfLog",
+  "description": "Lokales Kopfschmerz- und Symptom-Tagebuch (Offline-PWA)",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#D6EEFF",
+  "theme_color": "#B0DFFF",
+  "lang": "de",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

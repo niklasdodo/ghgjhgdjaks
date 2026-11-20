@@ -1,0 +1,2566 @@
+<!DOCTYPE html>
+<html lang="de" data-style="cinnamoroll" data-mode="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="KopfLog" />
+  <meta name="theme-color" content="#B0DFFF" id="metaThemeColor" />
+  <title>KopfLog – Kopfschmerz-Tagebuch</title>
+
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
+
+  <style>
+    /* ===================================================================
+       THEME SYSTEM: 2x2 Matrix (style: cinnamoroll | neutral) x (mode: light | dark)
+       =================================================================== */
+    :root {
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Nunito", "Segoe UI", Roboto, sans-serif;
+      --radius-card: 22px;
+      --radius-pill: 999px;
+      --radius-btn: 16px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --shadow-card: 0 8px 24px rgba(105, 168, 218, 0.14);
+      --shadow-soft: 0 3px 10px rgba(105, 168, 218, 0.12);
+    }
+
+    /* 1. CINNAMOROLL - HELL (Default: dreamy sky blue, cloud white, soft baby pink) */
+    html[data-style="cinnamoroll"][data-mode="light"] {
+      --bg: #D6EEFF;
+      --bg-grad: radial-gradient(circle at 12% 4%, #AEE0FF 0%, transparent 48%),
+                 radial-gradient(circle at 88% 12%, #C4E8FF 0%, transparent 44%),
+                 radial-gradient(circle at 84% 88%, #FFEAF4 0%, transparent 38%),
+                 linear-gradient(180deg, #C6E8FF 0%, #DCF0FF 48%, #EAF6FF 100%);
+      --card: rgba(248, 252, 255, 0.90);
+      --card-solid: #F8FCFF;
+      --card-alt: #E5F3FF;
+      --border: #ADD8FA;
+      --border-strong: #7AC1F5;
+      --text: #243C57;
+      --text-muted: #5C7D9E;
+      --accent: #4CB0F2;
+      --accent-strong: #2B94DC;
+      --accent-soft: #CCE9FF;
+      --accent-text: #FFFFFF;
+      --pink: #FF99C2;
+      --pink-soft: #FFEAF3;
+      --pink-text: #B84C78;
+      --ok: #36B384;
+      --ok-soft: #DCF6EC;
+      --warn: #E89B3C;
+      --warn-soft: #FFF2DF;
+      --danger: #E86A82;
+      --danger-soft: #FFE6EB;
+      --nav-bg: rgba(226, 243, 255, 0.92);
+      --chip-bg: #E4F3FF;
+      --chip-border: #B2DCFA;
+      --chip-active-bg: #4CB0F2;
+      --chip-active-border: #399FE5;
+      --chip-active-text: #FFFFFF;
+      --shadow-card: 0 8px 24px rgba(72, 150, 222, 0.17);
+      --shadow-soft: 0 3px 12px rgba(72, 150, 222, 0.14);
+      --radius-card: 24px;
+      --radius-btn: 18px;
+    }
+
+    /* 2. CINNAMOROLL - DUNKEL (Photophobia-friendly starry pastel night sky) */
+    html[data-style="cinnamoroll"][data-mode="dark"] {
+      --bg: #0D1728;
+      --bg-grad: radial-gradient(circle at 14% 5%, rgba(92, 178, 245, 0.22) 0%, transparent 50%),
+                 radial-gradient(circle at 86% 14%, rgba(124, 200, 255, 0.14) 0%, transparent 44%),
+                 radial-gradient(circle at 80% 90%, rgba(242, 156, 192, 0.10) 0%, transparent 38%),
+                 linear-gradient(180deg, #0C1626 0%, #111F36 100%);
+      --card: rgba(22, 36, 58, 0.92);
+      --card-solid: #16243A;
+      --card-alt: #1C2E4A;
+      --border: #2C466B;
+      --border-strong: #4A71A6;
+      --text: #E6F2FF;
+      --text-muted: #93B1D0;
+      --accent: #7CC8FF;
+      --accent-strong: #5EB5F7;
+      --accent-soft: rgba(124, 200, 255, 0.20);
+      --accent-text: #0A1829;
+      --pink: #F2A0C2;
+      --pink-soft: rgba(242, 160, 194, 0.16);
+      --pink-text: #F9BDD7;
+      --ok: #5BD1A4;
+      --ok-soft: rgba(91, 209, 164, 0.16);
+      --warn: #F2B463;
+      --warn-soft: rgba(242, 180, 99, 0.16);
+      --danger: #F27F97;
+      --danger-soft: rgba(242, 127, 151, 0.18);
+      --nav-bg: rgba(16, 28, 46, 0.93);
+      --chip-bg: #1B2D47;
+      --chip-border: #324E78;
+      --chip-active-bg: #7CC8FF;
+      --chip-active-border: #7CC8FF;
+      --chip-active-text: #0B192B;
+      --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.30);
+      --shadow-soft: 0 3px 10px rgba(0, 0, 0, 0.22);
+      --radius-card: 24px;
+      --radius-btn: 18px;
+    }
+
+    /* 3. NEUTRAL - HELL (Clean clinical minimal, zero Cinnamoroll) */
+    html[data-style="neutral"][data-mode="light"] {
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      --bg: #F4F5F7;
+      --bg-grad: #F4F5F7;
+      --card: #FFFFFF;
+      --card-solid: #FFFFFF;
+      --card-alt: #F8F9FB;
+      --border: #E2E5EC;
+      --border-strong: #CBD1DC;
+      --text: #181D26;
+      --text-muted: #606A7B;
+      --accent: #2563EB;
+      --accent-strong: #1D4ED8;
+      --accent-soft: #EBF2FF;
+      --accent-text: #FFFFFF;
+      --pink: #7C3AED;
+      --pink-soft: #F3EEFF;
+      --pink-text: #6D28D9;
+      --ok: #16A34A;
+      --ok-soft: #E8F8EE;
+      --warn: #D97706;
+      --warn-soft: #FEF3E2;
+      --danger: #DC2626;
+      --danger-soft: #FDECEC;
+      --nav-bg: rgba(255, 255, 255, 0.94);
+      --chip-bg: #F3F5F8;
+      --chip-border: #DDE2EA;
+      --chip-active-bg: #1E293B;
+      --chip-active-border: #1E293B;
+      --chip-active-text: #FFFFFF;
+      --shadow-card: 0 2px 10px rgba(15, 23, 42, 0.05);
+      --shadow-soft: 0 1px 4px rgba(15, 23, 42, 0.05);
+      --radius-card: 14px;
+      --radius-btn: 12px;
+    }
+
+    /* 4. NEUTRAL - DUNKEL (Clean OLED-friendly clinical dark, zero Cinnamoroll) */
+    html[data-style="neutral"][data-mode="dark"] {
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      --bg: #0D1015;
+      --bg-grad: #0D1015;
+      --card: #161B22;
+      --card-solid: #161B22;
+      --card-alt: #1C222B;
+      --border: #2A313D;
+      --border-strong: #3F495A;
+      --text: #ECF0F6;
+      --text-muted: #8E98A8;
+      --accent: #60A5FA;
+      --accent-strong: #3B82F6;
+      --accent-soft: rgba(96, 165, 250, 0.14);
+      --accent-text: #0B1220;
+      --pink: #C084FC;
+      --pink-soft: rgba(192, 132, 252, 0.14);
+      --pink-text: #D8B4FE;
+      --ok: #4ADE80;
+      --ok-soft: rgba(74, 222, 128, 0.14);
+      --warn: #FBBF24;
+      --warn-soft: rgba(251, 191, 36, 0.14);
+      --danger: #F87171;
+      --danger-soft: rgba(248, 113, 113, 0.15);
+      --nav-bg: rgba(17, 21, 28, 0.94);
+      --chip-bg: #1E242E;
+      --chip-border: #303846;
+      --chip-active-bg: #60A5FA;
+      --chip-active-border: #60A5FA;
+      --chip-active-text: #0A1322;
+      --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
+      --shadow-soft: 0 2px 6px rgba(0, 0, 0, 0.2);
+      --radius-card: 14px;
+      --radius-btn: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: var(--bg);
+      background-image: var(--bg-grad);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle floating clouds & Cinnamoroll-only elements */
+    .cinna-decor,
+    .cinna-only-inline {
+      display: none;
+      pointer-events: none;
+    }
+    html[data-style="cinnamoroll"] .cinna-decor {
+      display: block;
+    }
+    html[data-style="cinnamoroll"] .cinna-only-inline {
+      display: inline;
+    }
+    .neutral-only-inline {
+      display: none;
+    }
+    html[data-style="neutral"] .neutral-only-inline {
+      display: inline;
+    }
+    html[data-style="neutral"] .cinna-decor,
+    html[data-style="neutral"] .cinna-sticker,
+    html[data-style="neutral"] .cinna-sleepy-badge,
+    html[data-style="neutral"] .cinna-comfort-note {
+      display: none !important;
+    }
+    /* Photophobia-friendly image dimming in Cinnamoroll dark mode */
+    html[data-style="cinnamoroll"][data-mode="dark"] .mascot-slot img,
+    html[data-style="cinnamoroll"][data-mode="dark"] .cinna-sticker {
+      filter: brightness(0.88);
+    }
+    .bg-cloud-layer {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .bg-sparkle {
+      position: absolute;
+      opacity: 0.45;
+      color: var(--accent);
+      font-size: 14px;
+      user-select: none;
+    }
+    html[data-style="cinnamoroll"][data-mode="dark"] .bg-sparkle {
+      color: #CBE8FF;
+      opacity: 0.26;
+    }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: calc(12px + var(--safe-top)) 14px calc(92px + var(--safe-bottom));
+    }
+
+    /* Header */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    html[data-style="cinnamoroll"][data-mode="light"] .topbar {
+      background: linear-gradient(135deg, rgba(214, 238, 255, 0.96) 0%, rgba(244, 250, 255, 0.95) 64%, rgba(255, 240, 248, 0.92) 100%);
+      border-color: var(--border-strong);
+    }
+    html[data-style="cinnamoroll"][data-mode="dark"] .topbar {
+      background: linear-gradient(135deg, rgba(28, 49, 80, 0.94) 0%, rgba(22, 36, 58, 0.94) 70%, rgba(36, 34, 58, 0.92) 100%);
+      border-color: var(--border-strong);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .mascot-slot {
+      width: 62px;
+      height: 44px;
+      padding: 3px 5px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, var(--accent-soft) 0%, var(--pink-soft) 100%);
+      border: 1.5px solid var(--border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    }
+    html[data-style="cinnamoroll"][data-mode="dark"] .mascot-slot {
+      background: linear-gradient(180deg, rgba(124, 200, 255, 0.14) 0%, rgba(242, 160, 194, 0.10) 100%);
+      box-shadow: none;
+    }
+    html[data-style="neutral"] .mascot-slot {
+      display: none !important;
+    }
+    .mascot-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+    .mascot-slot.custom-img {
+      width: 44px;
+      padding: 0;
+    }
+    .mascot-slot.custom-img img {
+      object-fit: cover;
+    }
+    .mascot-slot.has-img img {
+      display: block;
+    }
+    .mascot-slot.has-img .mascot-fallback {
+      display: none;
+    }
+    .mascot-fallback {
+      font-size: 20px;
+      line-height: 1;
+    }
+    .brand-title {
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .theme-quick-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .icon-pill-btn {
+      border: 1px solid var(--border);
+      background: var(--card-alt);
+      color: var(--text);
+      height: 36px;
+      padding: 0 11px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: transform 0.12s ease, background 0.15s ease;
+    }
+    .icon-pill-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Backup Reminder Banner */
+    .banner {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      border-radius: var(--radius-btn);
+      background: var(--warn-soft);
+      border: 1px solid var(--warn);
+      color: var(--text);
+      font-size: 13px;
+    }
+    .banner.show { display: flex; }
+    .banner button {
+      background: var(--warn);
+      color: #1A1205;
+      border: none;
+      padding: 6px 11px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Cards & Sections */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 15px 15px 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-subtitle {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: -4px;
+      margin-bottom: 10px;
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 12px 0 7px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .section-label:first-child { margin-top: 2px; }
+    .hint { font-weight: 500; font-size: 11.5px; color: var(--text-muted); }
+
+    /* Date Bar */
+    .date-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .date-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .date-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .date-btn:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+    .date-picker-wrap {
+      position: relative;
+    }
+    .date-display {
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .date-input-hidden {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+    }
+    .status-badge {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--card-alt);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .status-badge.saved {
+      background: var(--ok-soft);
+      border-color: var(--ok);
+      color: var(--ok);
+    }
+
+    /* Intensity Slider */
+    .nrs-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .nrs-value {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .nrs-label {
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+    .nrs-0 { color: var(--ok); }
+    .nrs-low { color: #3AA78D; }
+    .nrs-mid { color: var(--warn); }
+    .nrs-high { color: var(--danger); }
+
+    input[type="range"].nrs-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #5BD1A4 0%, #8BD89B 22%, #F6C85F 52%, #F48F6B 76%, #E85D75 100%);
+      outline: none;
+      margin: 10px 0 8px;
+    }
+    input[type="range"].nrs-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3.5px solid var(--accent);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+      cursor: pointer;
+    }
+    .nrs-ticks {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 0 3px;
+    }
+    .quick-zero-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: nowrap;
+    }
+    .cinna-sleepy-badge {
+      display: none;
+      margin-left: auto;
+      align-items: center;
+      justify-content: center;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(124, 200, 255, 0.10);
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    html[data-style="cinnamoroll"][data-mode="dark"]:not([data-high-pain="true"]) .cinna-sleepy-badge {
+      display: inline-flex;
+    }
+    .cinna-sleepy-badge img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Chips */
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .chip {
+      border: 1.5px solid var(--chip-border);
+      background: var(--chip-bg);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.12s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .chip:active { transform: scale(0.96); }
+    .chip.active {
+      background: var(--chip-active-bg);
+      border-color: var(--chip-active-border);
+      color: var(--chip-active-text);
+      box-shadow: 0 2px 8px rgba(92, 180, 240, 0.25);
+    }
+    .chip.pink.active {
+      background: var(--pink);
+      border-color: var(--pink);
+      color: #FFFFFF;
+    }
+    .chip.warn.active {
+      background: var(--warn);
+      border-color: var(--warn);
+      color: #1A1205;
+    }
+    .chip.danger.active {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: #FFFFFF;
+    }
+    .chip.ok.active {
+      background: var(--ok);
+      border-color: var(--ok);
+      color: #FFFFFF;
+    }
+
+    /* Collapsible Pain Details */
+    .pain-details.hidden {
+      display: none;
+    }
+    .pain-free-note {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-btn);
+      background: var(--ok-soft);
+      border: 1px solid var(--ok);
+      color: var(--text);
+      font-size: 13.5px;
+      margin-bottom: 12px;
+    }
+    .pain-free-note.show { display: flex; }
+    .pain-free-note .cinna-happy-img {
+      width: 56px;
+      height: auto;
+      flex-shrink: 0;
+      object-fit: contain;
+      display: none;
+    }
+    html[data-style="cinnamoroll"] .pain-free-note .cinna-happy-img {
+      display: block;
+    }
+
+    /* Gentle sleepy Cinnamoroll comfort strip for strong pain (NRS >= 6) in Cinnamoroll mode only */
+    .cinna-comfort-note {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-btn);
+      background: var(--card);
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      font-size: 13px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-soft);
+    }
+    html[data-style="cinnamoroll"] .cinna-comfort-note.show {
+      display: flex;
+    }
+    html[data-style="cinnamoroll"][data-mode="dark"] .cinna-comfort-note {
+      background: rgba(24, 35, 55, 0.86);
+      border-color: var(--border);
+    }
+    .cinna-comfort-note img {
+      width: 52px;
+      height: auto;
+      flex-shrink: 0;
+      object-fit: contain;
+      display: block;
+    }
+    .cinna-comfort-text {
+      line-height: 1.35;
+    }
+    .cinna-comfort-text strong {
+      display: block;
+      font-size: 13.5px;
+      margin-bottom: 1px;
+    }
+    .cinna-comfort-text span {
+      color: var(--text-muted);
+      font-size: 12.5px;
+    }
+
+    /* Inputs */
+    .text-input, .select-input {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      background: var(--card-alt);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      outline: none;
+    }
+    .text-input:focus {
+      border-color: var(--accent);
+    }
+    .inline-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    /* Primary & Secondary Buttons */
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius-btn);
+      padding: 14px 16px;
+      font-family: var(--font-sans);
+      font-size: 15.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.12s ease, opacity 0.15s ease;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--accent-text);
+      box-shadow: 0 6px 18px rgba(92, 180, 240, 0.30);
+    }
+    .btn-pink {
+      background: var(--pink);
+      color: #FFFFFF;
+    }
+    .btn-secondary {
+      background: var(--card-alt);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border: 1.5px solid var(--danger);
+    }
+    .btn-sm {
+      padding: 10px 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+
+    /* Tabs Visibility */
+    .tab-view { display: none; }
+    .tab-view.active { display: block; }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 30;
+      background: var(--nav-bg);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 6px 8px calc(6px + var(--safe-bottom));
+    }
+    .bottom-nav-inner {
+      max-width: 560px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
+    .nav-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 6px 4px;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .nav-btn .nav-ico {
+      font-size: 20px;
+      line-height: 1.1;
+    }
+    .nav-btn.active {
+      color: var(--accent-strong);
+      background: var(--accent-soft);
+    }
+
+    /* Quicklog Grid */
+    .ql-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+    .ql-tile {
+      border: 1.5px solid var(--border);
+      background: var(--card-alt);
+      color: var(--text);
+      border-radius: var(--radius-btn);
+      padding: 13px 10px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ql-tile.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .ql-tile-ico { font-size: 22px; }
+    .ql-tile-title { font-weight: 800; font-size: 14px; }
+    .ql-tile-sub { font-size: 11.5px; color: var(--text-muted); }
+
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: var(--card-alt);
+      border: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+    .tl-time {
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--accent-strong);
+      min-width: 48px;
+    }
+    .tl-body { flex: 1; font-size: 13.5px; }
+    .tl-del {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 16px;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+
+    /* KPIs & Calendar */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+    .kpi-box {
+      background: var(--card-alt);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+    }
+    .kpi-val {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .kpi-lbl {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .kpi-sub {
+      font-size: 11.5px;
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    .cal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .cal-weekdays, .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    .cal-weekdays div {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding-bottom: 4px;
+    }
+    .cal-cell {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card-alt);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      position: relative;
+      padding: 2px;
+    }
+    .cal-cell.empty {
+      border: none;
+      background: transparent;
+      cursor: default;
+    }
+    .cal-cell.today {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+    .cal-cell.lvl-0 { background: var(--ok-soft); border-color: var(--ok); color: var(--text); }
+    .cal-cell.lvl-1 { background: rgba(145, 210, 155, 0.30); border-color: #6CC47E; }
+    .cal-cell.lvl-2 { background: rgba(246, 200, 95, 0.34); border-color: #E3AE3D; }
+    .cal-cell.lvl-3 { background: rgba(244, 138, 107, 0.38); border-color: #E57A57; }
+    .cal-cell.lvl-4 { background: rgba(232, 93, 117, 0.42); border-color: #D94D68; }
+    .cal-dots {
+      display: flex;
+      gap: 3px;
+      margin-top: 2px;
+    }
+    .cal-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+    .dot-med { background: #3B82F6; }
+    .dot-per { background: #EC4899; }
+    .dot-ql  { background: #F59E0B; }
+
+    .cal-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    /* Comparison Bars */
+    .ab-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 11px;
+      border-radius: 12px;
+      background: var(--card-alt);
+      border: 1px solid var(--border);
+      margin-bottom: 7px;
+      font-size: 13px;
+    }
+    .ab-val { font-weight: 800; }
+
+    /* HIT-6 */
+    .hit6-q {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .hit6-q:last-of-type { border-bottom: none; }
+    .hit6-q p {
+      margin: 0 0 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+
+    /* Theme Selector Grid */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .theme-option {
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 11px;
+      background: var(--card-alt);
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      font-family: var(--font-sans);
+    }
+    .theme-option.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .theme-option strong { display: block; font-size: 13.5px; }
+    .theme-option span { font-size: 11.5px; color: var(--text-muted); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(82px + var(--safe-bottom));
+      transform: translateX(-50%) translateY(20px);
+      background: #1C2738;
+      color: #FFFFFF;
+      padding: 10px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 13.5px;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s ease;
+      z-index: 60;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.28);
+      white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ===================================================================
+       1-PAGE CLINICAL DOCTOR REPORT (@media print — always clean white!)
+       =================================================================== */
+    #printReport { display: none; }
+
+    @media print {
+      @page { size: A4 portrait; margin: 12mm; }
+      html, body {
+        background: #FFFFFF !important;
+        background-image: none !important;
+        color: #111827 !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        font-size: 10.5pt !important;
+      }
+      .app-shell, .bottom-nav, .bg-cloud-layer, .toast, .cinna-decor, .cinna-sticker, .cinna-sleepy-badge, .cinna-comfort-note, .mascot-slot { display: none !important; }
+      #printReport { display: block !important; color: #111827; }
+      .pr-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #1E293B;
+        padding-bottom: 6px;
+        margin-bottom: 10px;
+      }
+      .pr-header h1 { margin: 0; font-size: 15pt; }
+      .pr-meta { font-size: 9pt; color: #475569; text-align: right; }
+      .pr-kpis {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .pr-kpi {
+        border: 1px solid #CBD5E1;
+        border-radius: 6px;
+        padding: 7px 9px;
+      }
+      .pr-kpi .v { font-size: 14pt; font-weight: 800; }
+      .pr-kpi .l { font-size: 8.5pt; color: #475569; }
+      .pr-two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .pr-box {
+        border: 1px solid #CBD5E1;
+        border-radius: 6px;
+        padding: 8px 10px;
+      }
+      .pr-box h2 {
+        margin: 0 0 6px;
+        font-size: 10pt;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #334155;
+        border-bottom: 1px solid #E2E8F0;
+        padding-bottom: 3px;
+      }
+      .pr-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 8.5pt;
+      }
+      .pr-table th, .pr-table td {
+        border: 1px solid #CBD5E1;
+        padding: 3px 5px;
+        text-align: left;
+      }
+      .pr-table th { background: #F1F5F9; }
+      .pr-cal-row {
+        display: grid;
+        grid-template-columns: repeat(15, 1fr);
+        gap: 3px;
+        margin-top: 4px;
+      }
+      .pr-day {
+        border: 1px solid #CBD5E1;
+        border-radius: 3px;
+        padding: 2px;
+        text-align: center;
+        font-size: 7.5pt;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Subtle atmospheric sparkles (visible only in Cinnamoroll mode) -->
+  <div class="bg-cloud-layer cinna-decor" aria-hidden="true">
+    <span class="bg-sparkle" style="top:8%; left:9%;">✦</span>
+    <span class="bg-sparkle" style="top:14%; right:11%; font-size:18px;">✧</span>
+    <span class="bg-sparkle" style="top:38%; left:5%; font-size:12px;">☁</span>
+    <span class="bg-sparkle" style="top:54%; right:6%; font-size:13px;">✦</span>
+    <span class="bg-sparkle" style="top:78%; left:8%; font-size:16px;">✧</span>
+  </div>
+
+  <div class="app-shell">
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="mascot-slot has-img" id="mascotSlot" title="Cinnamoroll">
+          <img id="mascotImg" src="./assets/cinna-mascot.png" alt="Cinnamoroll" />
+          <span class="mascot-fallback">☁️</span>
+        </div>
+        <div>
+          <div class="brand-title">
+            <span>KopfLog</span>
+            <span class="cinna-decor" style="font-size:14px; color:var(--pink);">✦</span>
+          </div>
+          <div class="brand-sub" id="brandSub">30-Sek. Kopfschmerz-Tagebuch</div>
+        </div>
+      </div>
+
+      <div class="theme-quick-controls">
+        <button class="icon-pill-btn" id="btnToggleStyle" type="button" title="Cinnamoroll / Neutral wechseln">
+          <span id="icoStyle">☁️</span>
+        </button>
+        <button class="icon-pill-btn" id="btnToggleMode" type="button" title="Hell / Dunkel wechseln">
+          <span id="icoMode">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- WEEKLY BACKUP BANNER -->
+    <div class="banner" id="backupBanner">
+      <span><strong>Wochen-Backup:</strong> Seit über 7 Tagen nicht gesichert.</span>
+      <button type="button" id="btnBannerBackup">Jetzt sichern</button>
+    </div>
+
+    <!-- ===============================================================
+         TAB 1: ABEND-CHECK (30 SEK.)
+         =============================================================== -->
+    <main id="tab-evening" class="tab-view active">
+      <div class="date-bar">
+        <div class="date-nav">
+          <button class="date-btn" type="button" id="btnPrevDay" aria-label="Vorheriger Tag">‹</button>
+          <div class="date-picker-wrap">
+            <div class="date-display" id="dateDisplay">Heute</div>
+            <input class="date-input-hidden" type="date" id="datePicker" />
+          </div>
+          <button class="date-btn" type="button" id="btnNextDay" aria-label="Nächster Tag">›</button>
+        </div>
+        <span class="status-badge" id="saveStatus">Noch offen</span>
+      </div>
+
+      <!-- 1. INTENSITÄT -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">1 · Stärkster Schmerz heute</div>
+          <span class="hint">0 = schmerzfrei</span>
+        </div>
+        <div class="nrs-header">
+          <div class="nrs-value nrs-0" id="nrsValue">0<span style="font-size:15px;font-weight:700;color:var(--text-muted)">/10</span></div>
+          <span class="nrs-label" id="nrsDesc" style="background:var(--ok-soft);color:var(--ok);">Schmerzfrei</span>
+        </div>
+        <input type="range" min="0" max="10" step="1" value="0" id="nrsSlider" class="nrs-slider" />
+        <div class="nrs-ticks">
+          <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+        </div>
+        <div class="quick-zero-row">
+          <button type="button" class="chip ok" id="btnQuickZero">✓ Heute komplett schmerzfrei</button>
+          <span class="cinna-sleepy-badge" title="Sanfter Nachtmodus" aria-hidden="true">
+            <img src="./assets/cinna-sleepy.png" alt="" class="cinna-sticker" />
+          </span>
+        </div>
+      </section>
+
+      <div class="pain-free-note show" id="painFreeNote">
+        <img src="./assets/cinna-happy.png" alt="" class="cinna-sticker cinna-happy-img" aria-hidden="true" />
+        <div><strong>Schmerzfreier Tag!</strong> Auch gute Tage sind super wichtig zum Vergleichen. Kurz unten noch Tagesablauf, Elvanse &amp; Kiefer antippen → Speichern.</div>
+      </div>
+
+      <div class="cinna-comfort-note" id="sleepyComfort">
+        <img src="./assets/cinna-sleepy.png" alt="" class="cinna-sticker" aria-hidden="true" />
+        <div class="cinna-comfort-text">
+          <strong>Sanft durchatmen &amp; ausruhen</strong>
+          <span>Starker Schmerz heute – kurz antippen, dann Bildschirm weglegen.</span>
+        </div>
+      </div>
+
+      <!-- 2–4. NUR BEI SCHMERZ > 0 -->
+      <div class="pain-details hidden" id="painDetails">
+        <section class="card">
+          <div class="card-title" style="margin-bottom:8px;">2 · Verlauf, Ort &amp; Art des Schmerzes</div>
+
+          <div class="section-label">Wann / wie verlief es? <span class="hint">Mehrfachwahl</span></div>
+          <div class="chip-group" data-multi="timing">
+            <button type="button" class="chip" data-val="Morgens schon da">Morgens schon da</button>
+            <button type="button" class="chip" data-val="Tagsüber aufgebaut">Tagsüber aufgebaut</button>
+            <button type="button" class="chip" data-val="Nach Heimkehr / Essen">Nach Heimkehr / Essen</button>
+            <button type="button" class="chip" data-val="Schubartig">Kommt in Schüben</button>
+            <button type="button" class="chip" data-val="Durchgehend">Durchgehend</button>
+            <button type="button" class="chip" data-val="Zwischendurch weg">Zwischendurch weg</button>
+          </div>
+
+          <div class="section-label">Wo war der Schmerz?</div>
+          <div class="chip-group" data-multi="location">
+            <button type="button" class="chip" data-val="Stirn / Vorne">Stirn / Vorne</button>
+            <button type="button" class="chip" data-val="Links">Links</button>
+            <button type="button" class="chip" data-val="Rechts">Rechts</button>
+            <button type="button" class="chip" data-val="Ganzer Kopf">Ganzer Kopf</button>
+            <button type="button" class="chip" data-val="Nacken / Kiefer">Nacken / Kiefer</button>
+            <button type="button" class="chip" data-val="Um das Auge">Um das Auge</button>
+          </div>
+
+          <div class="section-label">Wie hat es sich angefühlt?</div>
+          <div class="chip-group" data-multi="quality">
+            <button type="button" class="chip" data-val="Drückend">Drückend</button>
+            <button type="button" class="chip" data-val="Pochend / Pulsierend">Pochend</button>
+            <button type="button" class="chip" data-val="Stechend">Stechend</button>
+            <button type="button" class="chip" data-val="Ziehend">Ziehend</button>
+            <button type="button" class="chip" data-val="Wechselnd / Unklar">Schwer zu beschreiben</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-title" style="margin-bottom:8px;">3 · Begleitsymptome</div>
+          <div class="card-subtitle">Nur antippen, was heute wirklich da war</div>
+          <div class="chip-group" data-multi="symptoms">
+            <button type="button" class="chip pink" data-val="Verschwommene Sicht">Verschwommene Sicht</button>
+            <button type="button" class="chip pink" data-val="Aura">Flimmern / Sehausfall (Aura)</button>
+            <button type="button" class="chip warn" data-val="Allgemein schlapp / Kreislauf">Allgemein schlapp / Kreislauf</button>
+            <button type="button" class="chip danger" data-val="Echte Muskelschwäche (Beine / Finger)">Echte Schwäche (Wegknicken / Greifen)</button>
+            <button type="button" class="chip pink" data-val="Übelkeit / Licht / Lärm">Übelkeit / Licht- &amp; Lärmempfindlich</button>
+            <button type="button" class="chip" data-val="Auge tränt">Auge tränt</button>
+            <button type="button" class="chip warn" data-val="Schlimmer beim Bücken / Hinlegen">Schlimmer beim Bücken / Hinlegen</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- 4. KONTEXT, ELVANSE, ESSEN & KIEFER (IMMER SICHTBAR!) -->
+      <section class="card">
+        <div class="card-title" style="margin-bottom:8px;">4 · Tagesablauf, Essen &amp; Kiefer</div>
+
+        <div class="section-label">Unterwegs heute</div>
+        <div class="chip-group" data-single="schedule">
+          <button type="button" class="chip" data-val="Bis ~13:30">Bis ~13:30</button>
+          <button type="button" class="chip" data-val="Bis ~15:30">Bis ~15:30</button>
+          <button type="button" class="chip" data-val="Frei / Zuhause">Frei / Zuhause</button>
+          <button type="button" class="chip" data-val="Anders / Sonstiges">Anders / Sonstiges</button>
+        </div>
+
+        <div class="section-label">Essen tagsüber <span class="hint">Blutzucker-Check</span></div>
+        <div class="chip-group" data-single="food">
+          <button type="button" class="chip ok" data-val="Snack unterwegs">Snack unterwegs</button>
+          <button type="button" class="chip warn" data-val="Erst daheim gegessen">Erst daheim gegessen</button>
+          <button type="button" class="chip danger" data-val="Sehr wenig gegessen">Sehr wenig gegessen</button>
+        </div>
+
+        <div class="section-label">Trinken</div>
+        <div class="chip-group" data-single="water">
+          <button type="button" class="chip ok" data-val="Gut getrunken">Gut getrunken</button>
+          <button type="button" class="chip warn" data-val="Eher wenig">Eher wenig</button>
+        </div>
+
+        <div class="section-label">Elvanse</div>
+        <div class="chip-group" data-single="elvanse">
+          <button type="button" class="chip" data-val="Normal">Normal</button>
+          <button type="button" class="chip" data-val="Später">Später genommen</button>
+          <button type="button" class="chip pink" data-val="Pause">Pause</button>
+        </div>
+
+        <div class="section-label">Kiefer &amp; Nacken (tagsüber)</div>
+        <div class="chip-group" data-single="jaw">
+          <button type="button" class="chip ok" data-val="Locker">Locker</button>
+          <button type="button" class="chip warn" data-val="Angespannt">Angespannt</button>
+          <button type="button" class="chip danger" data-val="Gepresst / Hart">Stark gepresst</button>
+        </div>
+      </section>
+
+      <!-- 5. MEDIKATION, ZYKLUS & NOTIZ -->
+      <section class="card">
+        <div class="card-title" style="margin-bottom:8px;">5 · Schmerzmittel, Zyklus &amp; Notiz</div>
+
+        <div class="section-label">Schmerzmittel heute genommen?</div>
+        <div class="chip-group" data-single="medTaken">
+          <button type="button" class="chip ok" data-val="Nein">Nein</button>
+          <button type="button" class="chip danger" data-val="Ja">Ja</button>
+        </div>
+
+        <div id="medDetails" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid var(--border);">
+          <div class="section-label" style="margin-top:0;">Wirkstoff</div>
+          <div class="chip-group" data-single="medType">
+            <button type="button" class="chip" data-val="Ibuprofen">Ibuprofen</button>
+            <button type="button" class="chip" data-val="Paracetamol">Paracetamol</button>
+            <button type="button" class="chip" data-val="ASS">ASS</button>
+            <button type="button" class="chip" data-val="Triptan">Triptan</button>
+            <button type="button" class="chip" data-val="Kombi (Koffein)">Kombi-Präparat</button>
+            <button type="button" class="chip" data-val="Sonstiges">Sonstiges</button>
+          </div>
+          <div class="inline-row">
+            <input type="text" class="text-input" id="medDose" placeholder="Dosis (z. B. 400 mg)" />
+            <select class="select-input" id="medEffect">
+              <option value="">Wirkung nach 2 Std.?</option>
+              <option value="Keine Wirkung">Keine Wirkung</option>
+              <option value="Teilweise besser">Teilweise besser</option>
+              <option value="Schmerzfrei">Schmerzfrei</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-label">Zyklus</div>
+        <div class="chip-group" data-multi="meta">
+          <button type="button" class="chip pink" data-val="Periode">🩸 Periode</button>
+        </div>
+
+        <div class="section-label">Kurze Notiz <span class="hint">optional</span></div>
+        <input type="text" class="text-input" id="dayNote" placeholder="z. B. keine Bissschiene getragen, schlecht geschlafen, Stress..." />
+      </section>
+
+      <button type="button" class="btn btn-primary" id="btnSaveDay">✓ Abend-Check speichern</button>
+    </main>
+
+    <!-- ===============================================================
+         TAB 2: QUICKLOG (OPTIONALER 5-SEK.-ECHTZEIT-STEMPEL)
+         =============================================================== -->
+    <main id="tab-quicklog" class="tab-view">
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">⚡ Schneller Zeitstempel (Optional)</div>
+          <span class="hint" id="qlClock">--:--</span>
+        </div>
+        <div class="card-subtitle">Kein Zwang! Nur kurz antippen, wenn tagsüber ein Schub, Sehstörung oder Schwäche einsetzt – baut automatisch eine Zeitachse für den Neurologen.</div>
+
+        <div class="ql-grid">
+          <button type="button" class="ql-tile active" data-ql-cat="Schmerz / Schub">
+            <span class="ql-tile-ico">⚡</span>
+            <span class="ql-tile-title">Schmerz / Schub</span>
+            <span class="ql-tile-sub">Start oder plötzliche Spitze</span>
+          </button>
+          <button type="button" class="ql-tile" data-ql-cat="Sicht / Aura">
+            <span class="ql-tile-ico">👁️</span>
+            <span class="ql-tile-title">Sicht / Aura</span>
+            <span class="ql-tile-sub">Verschwommen, Flimmern</span>
+          </button>
+          <button type="button" class="ql-tile" data-ql-cat="Kreislauf / Schwäche">
+            <span class="ql-tile-ico">🫧</span>
+            <span class="ql-tile-title">Kreislauf / Schwäche</span>
+            <span class="ql-tile-sub">Schlapp oder Wegknicken</span>
+          </button>
+          <button type="button" class="ql-tile" data-ql-cat="Akut-Medikament">
+            <span class="ql-tile-ico">💊</span>
+            <span class="ql-tile-title">Schmerzmittel</span>
+            <span class="ql-tile-sub">Einnahmezeitpunkt merken</span>
+          </button>
+        </div>
+
+        <div id="qlDetailWrap" style="margin-bottom:12px;">
+          <div id="qlNrsWrap">
+            <div class="section-label">Stärke jetzt: <span id="qlNrsLabel">5/10</span></div>
+            <input type="range" min="1" max="10" value="5" id="qlNrs" class="nrs-slider" />
+          </div>
+          <div class="section-label">Was passiert gerade?</div>
+          <div class="chip-group" id="qlContextChips">
+            <button type="button" class="chip" data-qtag="Nach Essen">Nach dem Essen</button>
+            <button type="button" class="chip" data-qtag="Zuhause angekommen">Zuhause angekommen</button>
+            <button type="button" class="chip" data-qtag="Unterwegs">Unterwegs</button>
+            <button type="button" class="chip" data-qtag="Kiefer gepresst">Kiefer gepresst</button>
+            <button type="button" class="chip" data-qtag="Verschwommene Sicht">Verschwommene Sicht</button>
+            <button type="button" class="chip" data-qtag="Aura">Flimmern / Aura</button>
+            <button type="button" class="chip" data-qtag="Echte Muskelschwäche (Beine / Finger)">Echte Schwäche (Beine / Finger)</button>
+            <button type="button" class="chip" data-qtag="Allgemein schlapp / Kreislauf">Allgemein schlapp / Kreislauf</button>
+          </div>
+        </div>
+
+        <input type="text" class="text-input" id="qlNote" placeholder="Optional: Wirkstoff oder kurze Info..." style="margin-bottom:10px;" />
+        <button type="button" class="btn btn-primary" id="btnAddQuicklog">⏱ Zeitpunkt speichern</button>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">Heutige Zeitachse</div>
+          <span class="hint" id="qlCount">0 Einträge</span>
+        </div>
+        <div id="qlTimeline"></div>
+      </section>
+    </main>
+
+    <!-- ===============================================================
+         TAB 3: VERLAUF, ANALYSE & HIT-6
+         =============================================================== -->
+    <main id="tab-history" class="tab-view">
+      <section class="card">
+        <div class="card-title" style="margin-bottom:10px;">📊 Übersicht (letzte 30 Tage)</div>
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <div class="kpi-val" id="kpiHeadacheDays">0</div>
+            <div class="kpi-lbl">Kopfschmerztage</div>
+            <div class="kpi-sub" id="kpiTrackedDays" style="color:var(--text-muted);">von 0 geloggten Tagen</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val" id="kpiAvgPain">–</div>
+            <div class="kpi-lbl">Ø Stärke an Schmerztagen</div>
+            <div class="kpi-sub" id="kpiAvgAll" style="color:var(--text-muted);">Gesamt: –</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val" id="kpiMedDays">0</div>
+            <div class="kpi-lbl">Schmerzmittel-Tage</div>
+            <div class="kpi-sub" id="kpiMohHint" style="color:var(--ok);">Richtwert: &lt;10 Tage/Monat</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val" id="kpiPainFree">0</div>
+            <div class="kpi-lbl">Schmerzfreie Tage</div>
+            <div class="kpi-sub" style="color:var(--text-muted);">Wichtig zum Vergleichen</div>
+          </div>
+        </div>
+
+        <div class="section-label">Muster &amp; Zusammenhänge (Ø Stärke)</div>
+        <div id="abInsights"></div>
+      </section>
+
+      <!-- KALENDER -->
+      <section class="card">
+        <div class="cal-head">
+          <button class="date-btn" type="button" id="calPrev">‹</button>
+          <strong id="calTitle">Monat</strong>
+          <button class="date-btn" type="button" id="calNext">›</button>
+        </div>
+        <div class="cal-weekdays">
+          <div>Mo</div><div>Di</div><div>Mi</div><div>Do</div><div>Fr</div><div>Sa</div><div>So</div>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-legend">
+          <span>🟢 0</span><span>🟩 1–3</span><span>🟨 4–5</span><span>🟧 6–7</span><span>🟥 8–10</span>
+          <span><i class="cal-dot dot-med" style="display:inline-block;"></i> Schmerzmittel</span>
+          <span><i class="cal-dot dot-per" style="display:inline-block;"></i> Periode</span>
+          <span><i class="cal-dot dot-ql" style="display:inline-block;"></i> Zeitstempel</span>
+        </div>
+        <div style="font-size:11.5px;color:var(--text-muted);margin-top:6px;">Tipp: Auf einen Tag tippen, um ihn direkt zu öffnen oder nachzutragen.</div>
+      </section>
+
+      <!-- HIT-6 FRAGEBOGEN -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">📋 Monatlicher HIT-6 Score</div>
+          <span class="hint" id="hit6LastScore">Noch kein Wert</span>
+        </div>
+        <div class="card-subtitle">Standard-Belastungstest für Neurologen (36–78 Punkte; ab 60 = starke Beeinträchtigung). Einmal pro Monat ausfüllen.</div>
+        <button type="button" class="btn btn-secondary btn-sm" id="btnToggleHit6">HIT-6 jetzt ausfüllen</button>
+
+        <div id="hit6Form" style="display:none; margin-top:12px;">
+          <div id="hit6Questions"></div>
+          <button type="button" class="btn btn-primary btn-sm" id="btnSaveHit6" style="margin-top:12px;">HIT-6 berechnen &amp; speichern</button>
+        </div>
+        <div id="hit6History" style="margin-top:10px; font-size:12.5px; color:var(--text-muted);"></div>
+      </section>
+    </main>
+
+    <!-- ===============================================================
+         TAB 4: BACKUP, DESIGN & ARZTBERICHT
+         =============================================================== -->
+    <main id="tab-settings" class="tab-view">
+      <!-- DESIGN & CINNAMOROLL -->
+      <section class="card">
+        <div class="card-title" style="margin-bottom:10px;">🎨 Design &amp; Modus</div>
+        <div class="theme-grid">
+          <button type="button" class="theme-option" data-set-theme="cinnamoroll|light">
+            <strong>☁️ Cinnamoroll Hell</strong>
+            <span>Pastell-Himmel &amp; Wolken</span>
+          </button>
+          <button type="button" class="theme-option" data-set-theme="cinnamoroll|dark">
+            <strong>🌙 Cinnamoroll Dunkel</strong>
+            <span>Sanfter Sternenhimmel</span>
+          </button>
+          <button type="button" class="theme-option" data-set-theme="neutral|light">
+            <strong>📄 Neutral Hell</strong>
+            <span>Schlicht &amp; klassisch</span>
+          </button>
+          <button type="button" class="theme-option" data-set-theme="neutral|dark">
+            <strong>🖤 Neutral Dunkel</strong>
+            <span>Schlichter Dark Mode</span>
+          </button>
+        </div>
+
+        <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border);">
+          <div class="section-label" style="margin-top:0;">Cinnamoroll-Bild oben in der App</div>
+          <div class="card-subtitle">Du kannst das Standard-Bild behalten oder hier ein eigenes Lieblingsbild aus deiner Fotomediathek wählen.</div>
+          <div style="display:flex; gap:8px;">
+            <label class="btn btn-secondary btn-sm" style="flex:1; margin:0;">
+              🖼️ Bild vom iPhone wählen
+              <input type="file" id="mascotUpload" accept="image/*" style="display:none;" />
+            </label>
+            <button type="button" class="btn btn-secondary btn-sm" id="btnResetMascot" style="width:auto; padding:10px 14px;">Zurücksetzen</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ARZTBERICHT -->
+      <section class="card">
+        <div class="card-title" style="margin-bottom:8px;">🩺 Neurologen-Bericht (1 Seite)</div>
+        <div class="card-subtitle">Erzeugt immer eine schlichte, neutrale 1-Seiten-Übersicht zum Ausdrucken oder Speichern als PDF (iPhone: im Druckdialog oben auf Teilen tippen → „In Dateien sichern“).</div>
+        <button type="button" class="btn btn-primary" id="btnPrintReport">🖨️ Arztbericht drucken / als PDF</button>
+      </section>
+
+      <!-- BACKUP & EXPORT -->
+      <section class="card">
+        <div class="card-title" style="margin-bottom:8px;">💾 Datensicherung &amp; Export</div>
+        <div class="card-subtitle" id="lastBackupInfo">Alle Daten liegen ausschließlich lokal auf diesem iPhone.</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button type="button" class="btn btn-pink btn-sm" id="btnExportJson">📦 Backup sichern / teilen (JSON)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btnExportCsv">📑 Als Tabelle exportieren (CSV / Excel)</button>
+          <label class="btn btn-secondary btn-sm" style="margin:0;">
+            📥 Backup wiederherstellen (JSON)
+            <input type="file" id="importJsonInput" accept="application/json,.json" style="display:none;" />
+          </label>
+        </div>
+      </section>
+
+      <!-- TEST & RESET -->
+      <section class="card">
+        <div class="card-title" style="margin-bottom:8px;">🧪 Beispieldaten &amp; Zurücksetzen</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button type="button" class="btn btn-secondary btn-sm" id="btnLoadDemo">✨ 14 Tage Beispieldaten laden</button>
+          <button type="button" class="btn btn-danger btn-sm" id="btnClearAll">🗑️ Alle gespeicherten Daten löschen</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- BOTTOM NAVIGATION -->
+  <nav class="bottom-nav" aria-label="Navigation">
+    <div class="bottom-nav-inner">
+      <button type="button" class="nav-btn active" data-tab="evening">
+        <span class="nav-ico">📝</span><span>Abend</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="quicklog">
+        <span class="nav-ico">⚡</span><span>Quicklog</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="history">
+        <span class="nav-ico">📅</span><span>Verlauf</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="settings">
+        <span class="nav-ico cinna-only-inline">☁️</span><span class="nav-ico neutral-only-inline">⚙️</span><span>Mehr</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PRINT-ONLY CLINICAL REPORT -->
+  <div id="printReport"></div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">Gespeichert</div>
+
+  <script>
+    (() => {
+      const STORAGE_KEY = 'kopflog_data_v2';
+      const THEME_KEY = 'kopflog_theme_v2';
+      const MASCOT_KEY = 'kopflog_mascot_custom_v1';
+
+      const HIT6_QUESTIONS = [
+        'Wie oft haben Sie starke Kopfschmerzen?',
+        'Wie oft schränken Kopfschmerzen Ihre alltäglichen Aktivitäten (Arbeit, Studium, Haushalt) ein?',
+        'Wie oft möchten Sie sich bei Kopfschmerzen einfach nur hinlegen?',
+        'Wie oft fühlten Sie sich in den letzten 4 Wochen wegen Kopfschmerzen zu müde für normale Aufgaben?',
+        'Wie oft waren Sie in den letzten 4 Wochen wegen Kopfschmerzen genervt oder gereizt?',
+        'Wie oft schränkten Kopfschmerzen in den letzten 4 Wochen Ihre Konzentrationsfähigkeit ein?'
+      ];
+      const HIT6_OPTS = [
+        { label: 'Nie', pts: 6 },
+        { label: 'Selten', pts: 8 },
+        { label: 'Manchmal', pts: 10 },
+        { label: 'Sehr oft', pts: 11 },
+        { label: 'Immer', pts: 13 }
+      ];
+
+      // State
+      let store = loadStore();
+      let activeDate = todayISO();
+      let calMonth = new Date();
+      calMonth.setDate(1);
+      let activeQlCat = 'Schmerz / Schub';
+      let selectedQlTags = new Set();
+
+      function loadStore() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            return {
+              days: parsed.days || {},
+              quicklogs: parsed.quicklogs || [],
+              hit6: parsed.hit6 || [],
+              lastBackup: parsed.lastBackup || null
+            };
+          }
+        } catch (e) {}
+        return { days: {}, quicklogs: [], hit6: [], lastBackup: null };
+      }
+
+      function persistStore() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+      }
+
+      function todayISO() {
+        const d = new Date();
+        const off = d.getTimezoneOffset();
+        const local = new Date(d.getTime() - off * 60000);
+        return local.toISOString().slice(0, 10);
+      }
+
+      function addDaysISO(iso, delta) {
+        const [y, m, d] = iso.split('-').map(Number);
+        const dt = new Date(y, m - 1, d + delta);
+        const mm = String(dt.getMonth() + 1).padStart(2, '0');
+        const dd = String(dt.getDate()).padStart(2, '0');
+        return `${dt.getFullYear()}-${mm}-${dd}`;
+      }
+
+      function formatDE(iso) {
+        const [y, m, d] = iso.split('-').map(Number);
+        const dt = new Date(y, m - 1, d);
+        const t = todayISO();
+        if (iso === t) return 'Heute';
+        if (iso === addDaysISO(t, -1)) return 'Gestern';
+        return dt.toLocaleDateString('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit' });
+      }
+
+      function formatDateFullDE(iso) {
+        if (!iso || !iso.includes('-')) return iso || '';
+        const [y, m, d] = iso.split('-');
+        return `${d}.${m}.${y}`;
+      }
+
+      function showToast(msg) {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.classList.add('show');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => el.classList.remove('show'), 2100);
+      }
+
+      // =================================================================
+      // THEME ENGINE (Cinnamoroll/Neutral x Light/Dark)
+      // =================================================================
+      function getTheme() {
+        try {
+          const t = JSON.parse(localStorage.getItem(THEME_KEY) || '{}');
+          return {
+            style: t.style === 'neutral' ? 'neutral' : 'cinnamoroll',
+            mode: t.mode === 'dark' ? 'dark' : 'light'
+          };
+        } catch (e) {
+          return { style: 'cinnamoroll', mode: 'light' };
+        }
+      }
+
+      function applyTheme(style, mode) {
+        document.documentElement.setAttribute('data-style', style);
+        document.documentElement.setAttribute('data-mode', mode);
+        localStorage.setItem(THEME_KEY, JSON.stringify({ style, mode }));
+
+        const metaColors = {
+          'cinnamoroll|light': '#B0DFFF',
+          'cinnamoroll|dark': '#0D1728',
+          'neutral|light': '#F4F5F7',
+          'neutral|dark': '#0D1015'
+        };
+        document.getElementById('metaThemeColor').setAttribute('content', metaColors[`${style}|${mode}`]);
+        document.getElementById('icoStyle').textContent = style === 'cinnamoroll' ? '☁️' : 'Aa';
+        document.getElementById('icoMode').textContent = mode === 'dark' ? '☀️' : '🌙';
+        document.querySelectorAll('.theme-option').forEach((btn) => {
+          btn.classList.toggle('active', btn.dataset.setTheme === `${style}|${mode}`);
+        });
+      }
+
+      document.getElementById('btnToggleStyle').addEventListener('click', () => {
+        const t = getTheme();
+        const next = t.style === 'cinnamoroll' ? 'neutral' : 'cinnamoroll';
+        applyTheme(next, t.mode);
+        showToast(next === 'cinnamoroll' ? 'Cinnamoroll-Design aktiv ☁️' : 'Neutrales Design aktiv');
+      });
+
+      document.getElementById('btnToggleMode').addEventListener('click', () => {
+        const t = getTheme();
+        const next = t.mode === 'light' ? 'dark' : 'light';
+        applyTheme(t.style, next);
+      });
+
+      document.querySelectorAll('.theme-option').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const [style, mode] = btn.dataset.setTheme.split('|');
+          applyTheme(style, mode);
+          showToast('Design gespeichert');
+        });
+      });
+
+      // =================================================================
+      // MASCOT IMAGE LOADER (1. iPhone Upload -> 2. assets/cinna-mascot.png -> 3. Clean fallback)
+      // =================================================================
+      function initMascotImage() {
+        const slot = document.getElementById('mascotSlot');
+        const img = document.getElementById('mascotImg');
+        const custom = localStorage.getItem(MASCOT_KEY);
+
+        const tryAsset = () => {
+          slot.classList.remove('custom-img');
+          const probe = new Image();
+          probe.onload = () => {
+            img.src = './assets/cinna-mascot.png';
+            slot.classList.add('has-img');
+          };
+          probe.onerror = () => {
+            slot.classList.remove('has-img');
+            img.removeAttribute('src');
+          };
+          probe.src = './assets/cinna-mascot.png';
+        };
+
+        if (custom) {
+          img.src = custom;
+          slot.classList.add('has-img', 'custom-img');
+        } else {
+          tryAsset();
+        }
+      }
+
+      document.getElementById('mascotUpload').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const image = new Image();
+          image.onload = () => {
+            const canvas = document.createElement('canvas');
+            const max = 256;
+            const scale = Math.min(max / image.width, max / image.height, 1);
+            canvas.width = Math.round(image.width * scale);
+            canvas.height = Math.round(image.height * scale);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/png');
+            try {
+              localStorage.setItem(MASCOT_KEY, dataUrl);
+              initMascotImage();
+              showToast('Cinnamoroll-Bild gespeichert ☁️');
+            } catch (err) {
+              showToast('Bild ist leider zu groß');
+            }
+          };
+          image.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+        e.target.value = '';
+      });
+
+      document.getElementById('btnResetMascot').addEventListener('click', () => {
+        localStorage.removeItem(MASCOT_KEY);
+        initMascotImage();
+        showToast('Standardbild wiederhergestellt');
+      });
+
+      // =================================================================
+      // NAVIGATION TABS
+      // =================================================================
+      function switchTab(name) {
+        document.querySelectorAll('.tab-view').forEach((v) => v.classList.remove('active'));
+        document.getElementById(`tab-${name}`).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach((b) => {
+          b.classList.toggle('active', b.dataset.tab === name);
+        });
+        if (name === 'history') renderHistory();
+        if (name === 'quicklog') renderQuicklogs();
+        if (name === 'settings') renderBackupMeta();
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+
+      document.querySelectorAll('.nav-btn').forEach((btn) => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+      });
+
+      // =================================================================
+      // TAB 1: EVENING CHECK FORM LOGIC
+      // =================================================================
+      const nrsSlider = document.getElementById('nrsSlider');
+
+      function updateNrsUI(val) {
+        const v = Number(val);
+        const valEl = document.getElementById('nrsValue');
+        const descEl = document.getElementById('nrsDesc');
+        const details = document.getElementById('painDetails');
+        const note = document.getElementById('painFreeNote');
+        const qZero = document.getElementById('btnQuickZero');
+
+        valEl.innerHTML = `${v}<span style="font-size:15px;font-weight:700;color:var(--text-muted)">/10</span>`;
+        valEl.className = 'nrs-value ' + (v === 0 ? 'nrs-0' : v <= 3 ? 'nrs-low' : v <= 6 ? 'nrs-mid' : 'nrs-high');
+
+        const labels = [
+          ['Schmerzfrei', 'var(--ok-soft)', 'var(--ok)'],
+          ['Kaum spürbar', 'var(--ok-soft)', 'var(--ok)'],
+          ['Leicht', 'var(--ok-soft)', 'var(--ok)'],
+          ['Leicht–Mittel', 'var(--warn-soft)', 'var(--warn)'],
+          ['Mittel', 'var(--warn-soft)', 'var(--warn)'],
+          ['Deutlich störend', 'var(--warn-soft)', 'var(--warn)'],
+          ['Stark', 'var(--danger-soft)', 'var(--danger)'],
+          ['Sehr stark', 'var(--danger-soft)', 'var(--danger)'],
+          ['Heftig', 'var(--danger-soft)', 'var(--danger)'],
+          ['Extrem', 'var(--danger-soft)', 'var(--danger)'],
+          ['Unerträglich', 'var(--danger-soft)', 'var(--danger)']
+        ];
+        const [txt, bg, fg] = labels[v];
+        descEl.textContent = txt;
+        descEl.style.background = bg;
+        descEl.style.color = fg;
+
+        details.classList.toggle('hidden', v === 0);
+        note.classList.toggle('show', v === 0);
+        qZero.classList.toggle('active', v === 0);
+        const sleepy = document.getElementById('sleepyComfort');
+        if (sleepy) sleepy.classList.toggle('show', v >= 6);
+        document.documentElement.setAttribute('data-high-pain', v >= 6 ? 'true' : 'false');
+      }
+
+      nrsSlider.addEventListener('input', (e) => updateNrsUI(e.target.value));
+      document.getElementById('btnQuickZero').addEventListener('click', () => {
+        nrsSlider.value = 0;
+        updateNrsUI(0);
+      });
+
+      // Chip interactions (single & multi)
+      document.querySelectorAll('.chip-group[data-multi]').forEach((grp) => {
+        grp.addEventListener('click', (e) => {
+          const chip = e.target.closest('.chip');
+          if (!chip) return;
+          chip.classList.toggle('active');
+        });
+      });
+
+      document.querySelectorAll('.chip-group[data-single]').forEach((grp) => {
+        grp.addEventListener('click', (e) => {
+          const chip = e.target.closest('.chip');
+          if (!chip) return;
+          const wasActive = chip.classList.contains('active');
+          grp.querySelectorAll('.chip').forEach((c) => c.classList.remove('active'));
+          if (!wasActive) chip.classList.add('active');
+          if (grp.dataset.single === 'medTaken') {
+            const isYes = !wasActive && chip.dataset.val === 'Ja';
+            document.getElementById('medDetails').style.display = isYes ? 'block' : 'none';
+          }
+        });
+      });
+
+      function getMulti(name) {
+        return [...document.querySelectorAll(`.chip-group[data-multi="${name}"] .chip.active`)]
+          .map((c) => c.dataset.val);
+      }
+      function setMulti(name, arr) {
+        const set = new Set(arr || []);
+        document.querySelectorAll(`.chip-group[data-multi="${name}"] .chip`).forEach((c) => {
+          c.classList.toggle('active', set.has(c.dataset.val));
+        });
+      }
+      function getSingle(name) {
+        const el = document.querySelector(`.chip-group[data-single="${name}"] .chip.active`);
+        return el ? el.dataset.val : '';
+      }
+      function setSingle(name, val) {
+        document.querySelectorAll(`.chip-group[data-single="${name}"] .chip`).forEach((c) => {
+          c.classList.toggle('active', c.dataset.val === val);
+        });
+      }
+
+      function loadDayIntoForm(iso) {
+        const t = todayISO();
+        if (iso > t) iso = t;
+        activeDate = iso;
+        document.getElementById('dateDisplay').textContent = formatDE(iso);
+        const dp = document.getElementById('datePicker');
+        dp.max = t;
+        dp.value = iso;
+        document.getElementById('btnNextDay').disabled = iso >= t;
+        const d = store.days[iso];
+        const badge = document.getElementById('saveStatus');
+
+        if (d) {
+          badge.textContent = 'Gespeichert ✓';
+          badge.classList.add('saved');
+          nrsSlider.value = d.nrs ?? 0;
+          updateNrsUI(nrsSlider.value);
+          setMulti('timing', d.timing);
+          setMulti('location', d.location);
+          setMulti('quality', d.quality);
+          setMulti('symptoms', d.symptoms);
+          setSingle('schedule', d.schedule || '');
+          setSingle('food', d.food || '');
+          setSingle('water', d.water || '');
+          setSingle('elvanse', d.elvanse || '');
+          setSingle('jaw', d.jaw || '');
+          setSingle('medTaken', d.medTaken ? 'Ja' : 'Nein');
+          document.getElementById('medDetails').style.display = d.medTaken ? 'block' : 'none';
+          setSingle('medType', d.medType || '');
+          document.getElementById('medDose').value = d.medDose || '';
+          document.getElementById('medEffect').value = d.medEffect || '';
+          setMulti('meta', d.meta);
+          document.getElementById('dayNote').value = d.note || '';
+        } else {
+          badge.textContent = 'Noch offen';
+          badge.classList.remove('saved');
+          nrsSlider.value = 0;
+          updateNrsUI(0);
+          ['timing', 'location', 'quality', 'symptoms', 'meta'].forEach((k) => setMulti(k, []));
+          ['schedule', 'food', 'water', 'elvanse', 'jaw', 'medType'].forEach((k) => setSingle(k, ''));
+          setSingle('medTaken', 'Nein');
+          document.getElementById('medDetails').style.display = 'none';
+          document.getElementById('medDose').value = '';
+          document.getElementById('medEffect').value = '';
+          document.getElementById('dayNote').value = '';
+        }
+      }
+
+      document.getElementById('btnPrevDay').addEventListener('click', () => loadDayIntoForm(addDaysISO(activeDate, -1)));
+      document.getElementById('btnNextDay').addEventListener('click', () => {
+        if (activeDate < todayISO()) loadDayIntoForm(addDaysISO(activeDate, 1));
+      });
+      document.getElementById('datePicker').addEventListener('change', (e) => {
+        if (e.target.value) loadDayIntoForm(e.target.value);
+      });
+
+      document.getElementById('btnSaveDay').addEventListener('click', () => {
+        const nrs = Number(nrsSlider.value);
+        const medTaken = getSingle('medTaken') === 'Ja';
+        store.days[activeDate] = {
+          date: activeDate,
+          nrs,
+          timing: nrs > 0 ? getMulti('timing') : [],
+          location: nrs > 0 ? getMulti('location') : [],
+          quality: nrs > 0 ? getMulti('quality') : [],
+          symptoms: nrs > 0 ? getMulti('symptoms') : [],
+          schedule: getSingle('schedule'),
+          food: getSingle('food'),
+          water: getSingle('water'),
+          elvanse: getSingle('elvanse'),
+          jaw: getSingle('jaw'),
+          medTaken,
+          medType: medTaken ? getSingle('medType') : '',
+          medDose: medTaken ? document.getElementById('medDose').value.trim() : '',
+          medEffect: medTaken ? document.getElementById('medEffect').value : '',
+          meta: getMulti('meta'),
+          note: document.getElementById('dayNote').value.trim(),
+          updatedAt: new Date().toISOString()
+        };
+        persistStore();
+        loadDayIntoForm(activeDate);
+        checkBackupBanner();
+        showToast(`Gespeichert (${formatDE(activeDate)}) ✓`);
+      });
+
+      // =================================================================
+      // TAB 2: QUICKLOG (REALTIME TIMESTAMPS)
+      // =================================================================
+      function updateQlClock() {
+        const now = new Date();
+        document.getElementById('qlClock').textContent =
+          now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) + ' Uhr';
+      }
+      setInterval(updateQlClock, 15000);
+      updateQlClock();
+
+      document.querySelectorAll('.ql-tile').forEach((tile) => {
+        tile.addEventListener('click', () => {
+          document.querySelectorAll('.ql-tile').forEach((t) => t.classList.remove('active'));
+          tile.classList.add('active');
+          activeQlCat = tile.dataset.qlCat;
+          const isMed = activeQlCat === 'Akut-Medikament';
+          document.getElementById('qlNrsWrap').style.display = isMed ? 'none' : 'block';
+          document.getElementById('qlNote').placeholder = isMed
+            ? 'z. B. Ibuprofen 400 mg...'
+            : 'Optional: kurze Info...';
+        });
+      });
+
+      document.getElementById('qlNrs').addEventListener('input', (e) => {
+        document.getElementById('qlNrsLabel').textContent = `${e.target.value}/10`;
+      });
+
+      document.getElementById('qlContextChips').addEventListener('click', (e) => {
+        const c = e.target.closest('.chip');
+        if (!c) return;
+        const tag = c.dataset.qtag;
+        if (selectedQlTags.has(tag)) {
+          selectedQlTags.delete(tag);
+          c.classList.remove('active');
+        } else {
+          selectedQlTags.add(tag);
+          c.classList.add('active');
+        }
+      });
+
+      document.getElementById('btnAddQuicklog').addEventListener('click', () => {
+        const now = new Date();
+        const entry = {
+          id: Date.now().toString(36),
+          date: todayISO(),
+          time: now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }),
+          iso: now.toISOString(),
+          category: activeQlCat,
+          nrs: activeQlCat === 'Akut-Medikament' ? null : Number(document.getElementById('qlNrs').value),
+          tags: [...selectedQlTags],
+          note: document.getElementById('qlNote').value.trim()
+        };
+        store.quicklogs.unshift(entry);
+        persistStore();
+        selectedQlTags.clear();
+        document.querySelectorAll('#qlContextChips .chip').forEach((c) => c.classList.remove('active'));
+        document.getElementById('qlNote').value = '';
+        renderQuicklogs();
+        showToast(`Gespeichert um ${entry.time} Uhr ⚡`);
+      });
+
+      function renderQuicklogs() {
+        const today = todayISO();
+        const list = store.quicklogs.filter((q) => q.date === today);
+        document.getElementById('qlCount').textContent = `${list.length} ${list.length === 1 ? 'Eintrag' : 'Einträge'}`;
+        const box = document.getElementById('qlTimeline');
+        if (!list.length) {
+          box.innerHTML = '<div style="font-size:13px;color:var(--text-muted);padding:6px 0;">Heute noch keine Einträge. Alles gut – der Abend-Check reicht völlig!</div>';
+          return;
+        }
+        box.innerHTML = list.map((q) => `
+          <div class="timeline-item">
+            <div class="tl-time">${q.time}</div>
+            <div class="tl-body">
+              <strong>${escapeHtml(q.category)}</strong>${q.nrs ? ` · <b>${q.nrs}/10</b>` : ''}
+              ${q.tags.length ? `<div style="font-size:12px;color:var(--text-muted);margin-top:2px;">${q.tags.map(escapeHtml).join(' · ')}</div>` : ''}
+              ${q.note ? `<div style="font-size:12.5px;margin-top:2px;">„${escapeHtml(q.note)}“</div>` : ''}
+            </div>
+            <button type="button" class="tl-del" data-del-ql="${q.id}" title="Löschen">×</button>
+          </div>
+        `).join('');
+        box.querySelectorAll('[data-del-ql]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            store.quicklogs = store.quicklogs.filter((x) => x.id !== btn.dataset.delQl);
+            persistStore();
+            renderQuicklogs();
+          });
+        });
+      }
+
+      // =================================================================
+      // TAB 3: HISTORY, KPIs, A/B HYPOTHESES, CALENDAR & HIT-6
+      // =================================================================
+      function computeStats(daysArr) {
+        const total = daysArr.length;
+        const painDays = daysArr.filter((d) => d.nrs > 0);
+        const painFree = daysArr.filter((d) => d.nrs === 0).length;
+        const medDays = daysArr.filter((d) => d.medTaken).length;
+        const avgPain = painDays.length
+          ? (painDays.reduce((s, d) => s + d.nrs, 0) / painDays.length).toFixed(1)
+          : '–';
+        const avgAll = total
+          ? (daysArr.reduce((s, d) => s + d.nrs, 0) / total).toFixed(1)
+          : '–';
+        return { total, painCount: painDays.length, painFree, medDays, avgPain, avgAll };
+      }
+
+      function avgFor(daysArr, pred) {
+        const sub = daysArr.filter(pred);
+        if (!sub.length) return { n: 0, avg: '–' };
+        const a = (sub.reduce((s, d) => s + d.nrs, 0) / sub.length).toFixed(1);
+        return { n: sub.length, avg: a };
+      }
+
+      function renderHistory() {
+        const allDays = Object.values(store.days).sort((a, b) => a.date.localeCompare(b.date));
+        const cutoff30 = addDaysISO(todayISO(), -29);
+        const last30 = allDays.filter((d) => d.date >= cutoff30);
+        const st = computeStats(last30);
+
+        document.getElementById('kpiHeadacheDays').textContent = st.painCount;
+        document.getElementById('kpiTrackedDays').textContent = `von ${st.total} eingetragenen Tagen`;
+        document.getElementById('kpiAvgPain').textContent = st.avgPain;
+        document.getElementById('kpiAvgAll').textContent = `Alle Tage: ${st.avgAll}`;
+        document.getElementById('kpiMedDays').textContent = st.medDays;
+        document.getElementById('kpiPainFree').textContent = st.painFree;
+
+        const mohEl = document.getElementById('kpiMohHint');
+        if (st.medDays >= 10) {
+          mohEl.textContent = 'Achtung: ≥10 Tage (Risiko Übergebrauch)';
+          mohEl.style.color = 'var(--danger)';
+        } else {
+          mohEl.textContent = 'Im grünen Bereich (<10 Tage)';
+          mohEl.style.color = 'var(--ok)';
+        }
+
+        // A/B Insights
+        const snack = avgFor(allDays, (d) => d.food === 'Snack unterwegs');
+        const noSnack = avgFor(allDays, (d) => d.food === 'Erst daheim gegessen' || d.food === 'Sehr wenig gegessen');
+        const s1330 = avgFor(allDays, (d) => d.schedule === 'Bis ~13:30');
+        const s1530 = avgFor(allDays, (d) => d.schedule === 'Bis ~15:30');
+        const elvNorm = avgFor(allDays, (d) => d.elvanse === 'Normal' || d.elvanse === 'Später');
+        const elvPause = avgFor(allDays, (d) => d.elvanse === 'Pause');
+        const jawHard = avgFor(allDays, (d) => d.jaw === 'Gepresst / Hart');
+        const jawSoft = avgFor(allDays, (d) => d.jaw === 'Locker');
+
+        document.getElementById('abInsights').innerHTML = [
+          ['🥨 Snack unterwegs vs. Erst daheim', `Ø ${snack.avg} (${snack.n} T.) vs. Ø ${noSnack.avg} (${noSnack.n} T.)`],
+          ['🕐 Bis ~13:30 vs. Bis ~15:30', `Ø ${s1330.avg} (${s1330.n} T.) vs. Ø ${s1530.avg} (${s1530.n} T.)`],
+          ['💊 Elvanse vs. Pausentag', `Ø ${elvNorm.avg} (${elvNorm.n} T.) vs. Ø ${elvPause.avg} (${elvPause.n} T.)`],
+          ['🦷 Kiefer locker vs. gepresst', `Ø ${jawSoft.avg} (${jawSoft.n} T.) vs. Ø ${jawHard.avg} (${jawHard.n} T.)`]
+        ].map(([k, v]) => `<div class="ab-row"><span>${k}</span><span class="ab-val">${v}</span></div>`).join('');
+
+        renderCalendar();
+        renderHit6History();
+      }
+
+      function renderCalendar() {
+        const y = calMonth.getFullYear();
+        const m = calMonth.getMonth();
+        document.getElementById('calTitle').textContent =
+          calMonth.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+
+        const firstDay = new Date(y, m, 1);
+        const startOffset = (firstDay.getDay() + 6) % 7; // Monday = 0
+        const daysInMonth = new Date(y, m + 1, 0).getDate();
+        const today = todayISO();
+        const qlDates = new Set(store.quicklogs.map((q) => q.date));
+
+        let html = '';
+        for (let i = 0; i < startOffset; i++) {
+          html += '<div class="cal-cell empty"></div>';
+        }
+        for (let day = 1; day <= daysInMonth; day++) {
+          const iso = `${y}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          const rec = store.days[iso];
+          let cls = 'cal-cell';
+          if (iso === today) cls += ' today';
+          let dots = '';
+          if (rec) {
+            const lvl = rec.nrs === 0 ? 0 : rec.nrs <= 3 ? 1 : rec.nrs <= 5 ? 2 : rec.nrs <= 7 ? 3 : 4;
+            cls += ` lvl-${lvl}`;
+            if (rec.medTaken) dots += '<span class="cal-dot dot-med"></span>';
+            if ((rec.meta || []).includes('Periode')) dots += '<span class="cal-dot dot-per"></span>';
+          }
+          if (qlDates.has(iso)) dots += '<span class="cal-dot dot-ql"></span>';
+
+          html += `
+            <button type="button" class="${cls}" data-open-day="${iso}">
+              <span>${day}</span>
+              ${dots ? `<div class="cal-dots">${dots}</div>` : ''}
+            </button>
+          `;
+        }
+        const grid = document.getElementById('calGrid');
+        grid.innerHTML = html;
+        grid.querySelectorAll('[data-open-day]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            loadDayIntoForm(btn.dataset.openDay);
+            switchTab('evening');
+          });
+        });
+      }
+
+      document.getElementById('calPrev').addEventListener('click', () => {
+        calMonth.setMonth(calMonth.getMonth() - 1);
+        renderCalendar();
+      });
+      document.getElementById('calNext').addEventListener('click', () => {
+        calMonth.setMonth(calMonth.getMonth() + 1);
+        renderCalendar();
+      });
+
+      // HIT-6
+      function buildHit6Form() {
+        const wrap = document.getElementById('hit6Questions');
+        wrap.innerHTML = HIT6_QUESTIONS.map((q, idx) => `
+          <div class="hit6-q">
+            <p>${idx + 1}. ${q}</p>
+            <div class="chip-group" data-hit6-q="${idx}">
+              ${HIT6_OPTS.map((o) => `<button type="button" class="chip" data-pts="${o.pts}">${o.label}</button>`).join('')}
+            </div>
+          </div>
+        `).join('');
+        wrap.querySelectorAll('[data-hit6-q]').forEach((grp) => {
+          grp.addEventListener('click', (e) => {
+            const c = e.target.closest('.chip');
+            if (!c) return;
+            grp.querySelectorAll('.chip').forEach((x) => x.classList.remove('active'));
+            c.classList.add('active');
+          });
+        });
+      }
+      buildHit6Form();
+
+      document.getElementById('btnToggleHit6').addEventListener('click', () => {
+        const f = document.getElementById('hit6Form');
+        const open = f.style.display === 'none';
+        f.style.display = open ? 'block' : 'none';
+        document.getElementById('btnToggleHit6').textContent = open ? 'Formular schließen' : 'HIT-6 jetzt ausfüllen';
+      });
+
+      document.getElementById('btnSaveHit6').addEventListener('click', () => {
+        const scores = [];
+        for (let i = 0; i < 6; i++) {
+          const sel = document.querySelector(`[data-hit6-q="${i}"] .chip.active`);
+          if (!sel) {
+            showToast(`Bitte Frage ${i + 1} beantworten`);
+            return;
+          }
+          scores.push(Number(sel.dataset.pts));
+        }
+        const total = scores.reduce((a, b) => a + b, 0);
+        store.hit6.unshift({ date: todayISO(), score: total, answers: scores });
+        persistStore();
+        document.getElementById('hit6Form').style.display = 'none';
+        document.getElementById('btnToggleHit6').textContent = 'HIT-6 jetzt ausfüllen';
+        renderHit6History();
+        showToast(`HIT-6 gespeichert: ${total} Punkte`);
+      });
+
+      function hit6Category(score) {
+        if (score <= 49) return 'Geringe Beeinträchtigung';
+        if (score <= 55) return 'Mäßige Beeinträchtigung';
+        if (score <= 59) return 'Erhebliche Beeinträchtigung';
+        return 'Schwere Beeinträchtigung';
+      }
+
+      function renderHit6History() {
+        const lastEl = document.getElementById('hit6LastScore');
+        const histEl = document.getElementById('hit6History');
+        if (!store.hit6.length) {
+          lastEl.textContent = 'Noch kein Wert';
+          histEl.innerHTML = '';
+          return;
+        }
+        const latest = store.hit6[0];
+        lastEl.textContent = `Aktuell: ${latest.score} Pkt.`;
+        histEl.innerHTML = store.hit6.slice(0, 5).map((h) =>
+          `<div>• <strong>${formatDateFullDE(h.date)}</strong>: ${h.score} Punkte (${hit6Category(h.score)})</div>`
+        ).join('');
+      }
+
+      // =================================================================
+      // BACKUP, EXPORT, IMPORT & DEMO DATA
+      // =================================================================
+      function checkBackupBanner() {
+        const banner = document.getElementById('backupBanner');
+        const count = Object.keys(store.days).length;
+        if (count < 5) {
+          banner.classList.remove('show');
+          return;
+        }
+        const last = store.lastBackup ? new Date(store.lastBackup).getTime() : 0;
+        const diffDays = (Date.now() - last) / (1000 * 60 * 60 * 24);
+        banner.classList.toggle('show', diffDays >= 7);
+      }
+
+      function renderBackupMeta() {
+        const el = document.getElementById('lastBackupInfo');
+        const daysCount = Object.keys(store.days).length;
+        const last = store.lastBackup
+          ? new Date(store.lastBackup).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })
+          : 'noch nie';
+        el.textContent = `${daysCount} ${daysCount === 1 ? 'Tag' : 'Tage'} & ${store.quicklogs.length} ${store.quicklogs.length === 1 ? 'Zeitstempel' : 'Zeitstempel'} lokal gespeichert · Letztes Backup: ${last}`;
+      }
+
+      async function shareOrDownload(filename, content, mime) {
+        const blob = new Blob([content], { type: mime });
+        const file = new File([blob], filename, { type: mime });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file], title: filename });
+            return true;
+          } catch (err) {
+            if (err && err.name === 'AbortError') return false;
+          }
+        }
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        return true;
+      }
+
+      async function doJsonExport() {
+        const payload = {
+          app: 'KopfLog',
+          version: 2,
+          exportedAt: new Date().toISOString(),
+          ...store
+        };
+        const ok = await shareOrDownload(`kopflog-backup-${todayISO()}.json`, JSON.stringify(payload, null, 2), 'application/json');
+        if (ok) {
+          store.lastBackup = new Date().toISOString();
+          persistStore();
+          checkBackupBanner();
+          renderBackupMeta();
+          showToast('Backup gespeichert ✓');
+        }
+      }
+
+      document.getElementById('btnExportJson').addEventListener('click', doJsonExport);
+      document.getElementById('btnBannerBackup').addEventListener('click', doJsonExport);
+
+      document.getElementById('btnExportCsv').addEventListener('click', async () => {
+        const cols = ['date','nrs','timing','location','quality','symptoms','schedule','food','water','elvanse','jaw','medTaken','medType','medDose','medEffect','meta','note'];
+        const rows = Object.values(store.days).sort((a,b) => a.date.localeCompare(b.date));
+        const esc = (v) => `"${String(Array.isArray(v) ? v.join('; ') : (v ?? '')).replace(/"/g, '""')}"`;
+        const csv = '\uFEFF' + [cols.join(','), ...rows.map((r) => cols.map((c) => esc(r[c])).join(','))].join('\n');
+        await shareOrDownload(`kopflog-${todayISO()}.csv`, csv, 'text/csv;charset=utf-8');
+        showToast('Tabelle gespeichert ✓');
+      });
+
+      document.getElementById('importJsonInput').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const parsed = JSON.parse(reader.result);
+            if (!parsed || typeof parsed.days !== 'object') throw new Error('Ungültiges Format');
+            store = {
+              days: parsed.days || {},
+              quicklogs: Array.isArray(parsed.quicklogs) ? parsed.quicklogs : [],
+              hit6: Array.isArray(parsed.hit6) ? parsed.hit6 : [],
+              lastBackup: parsed.lastBackup || new Date().toISOString()
+            };
+            persistStore();
+            loadDayIntoForm(activeDate);
+            renderBackupMeta();
+            checkBackupBanner();
+            showToast(`Wiederhergestellt (${Object.keys(store.days).length} Tage) ✓`);
+          } catch (err) {
+            showToast('Datei konnte nicht gelesen werden');
+          }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+      });
+
+      document.getElementById('btnLoadDemo').addEventListener('click', () => {
+        if (Object.keys(store.days).length > 0 && !confirm('14 Tage Beispieldaten zum Ausprobieren laden? Bestehende Einträge im selben Zeitraum werden überschrieben.')) return;
+        const t = todayISO();
+        const demoPattern = [
+          { nrs: 6, sch: 'Bis ~15:30', food: 'Erst daheim gegessen', elv: 'Normal', jaw: 'Gepresst / Hart', med: false, loc: ['Stirn / Vorne','Links'], qual: ['Drückend','Pochend / Pulsierend'], sym: ['Verschwommene Sicht','Allgemein schlapp / Kreislauf'], tim: ['Tagsüber aufgebaut','Nach Heimkehr / Essen'] },
+          { nrs: 3, sch: 'Bis ~13:30', food: 'Snack unterwegs', elv: 'Normal', jaw: 'Angespannt', med: false, loc: ['Stirn / Vorne'], qual: ['Drückend'], sym: [], tim: ['Tagsüber aufgebaut'] },
+          { nrs: 0, sch: 'Bis ~13:30', food: 'Snack unterwegs', elv: 'Normal', jaw: 'Locker', med: false, loc: [], qual: [], sym: [], tim: [] },
+          { nrs: 7, sch: 'Bis ~15:30', food: 'Erst daheim gegessen', elv: 'Normal', jaw: 'Gepresst / Hart', med: true, loc: ['Links','Stirn / Vorne'], qual: ['Pochend / Pulsierend'], sym: ['Aura','Verschwommene Sicht','Übelkeit / Licht / Lärm','Echte Muskelschwäche (Beine / Finger)'], tim: ['Schubartig','Nach Heimkehr / Essen'] },
+          { nrs: 4, sch: 'Frei / Zuhause', food: 'Snack unterwegs', elv: 'Pause', jaw: 'Locker', med: false, loc: ['Ganzer Kopf'], qual: ['Drückend'], sym: ['Allgemein schlapp / Kreislauf'], tim: ['Morgens schon da'] },
+          { nrs: 0, sch: 'Frei / Zuhause', food: 'Snack unterwegs', elv: 'Normal', jaw: 'Locker', med: false, loc: [], qual: [], sym: [], tim: [] },
+          { nrs: 5, sch: 'Bis ~15:30', food: 'Erst daheim gegessen', elv: 'Normal', jaw: 'Angespannt', med: false, loc: ['Stirn / Vorne','Nacken / Kiefer'], qual: ['Ziehend'], sym: ['Verschwommene Sicht'], tim: ['Nach Heimkehr / Essen'] }
+        ];
+        for (let i = 13; i >= 0; i--) {
+          const iso = addDaysISO(t, -i);
+          const p = demoPattern[i % demoPattern.length];
+          store.days[iso] = {
+            date: iso,
+            nrs: p.nrs,
+            timing: p.tim,
+            location: p.loc,
+            quality: p.qual,
+            symptoms: p.sym,
+            schedule: p.sch,
+            food: p.food,
+            water: 'Gut getrunken',
+            elvanse: p.elv,
+            jaw: p.jaw,
+            medTaken: p.med,
+            medType: p.med ? 'Ibuprofen' : '',
+            medDose: p.med ? '400 mg' : '',
+            medEffect: p.med ? 'Teilweise besser' : '',
+            meta: i >= 10 ? ['Periode'] : [],
+            note: i === 3 ? 'Nach langem Tag direkt nach dem Essen eingesetzt' : '',
+            updatedAt: new Date().toISOString()
+          };
+        }
+        if (!store.hit6.length) {
+          store.hit6.push({ date: addDaysISO(t, -2), score: 63, answers: [10, 11, 11, 10, 10, 11] });
+        }
+        persistStore();
+        loadDayIntoForm(activeDate);
+        renderBackupMeta();
+        showToast('14 Tage Beispieldaten geladen ✨');
+      });
+
+      document.getElementById('btnClearAll').addEventListener('click', () => {
+        if (!confirm('Wirklich alle gespeicherten Einträge unwiderruflich löschen?')) return;
+        store = { days: {}, quicklogs: [], hit6: [], lastBackup: null };
+        persistStore();
+        loadDayIntoForm(todayISO());
+        renderBackupMeta();
+        checkBackupBanner();
+        showToast('Alle Daten gelöscht');
+      });
+
+      // =================================================================
+      // 1-PAGE CLINICAL DOCTOR REPORT (PRINT / PDF)
+      // =================================================================
+      document.getElementById('btnPrintReport').addEventListener('click', () => {
+        const all = Object.values(store.days).sort((a, b) => a.date.localeCompare(b.date));
+        const cutoff60 = addDaysISO(todayISO(), -59);
+        const period = all.filter((d) => d.date >= cutoff60);
+        const cutoff30 = addDaysISO(todayISO(), -29);
+        const last30 = all.filter((d) => d.date >= cutoff30);
+
+        const st30 = computeStats(last30);
+        const st60 = computeStats(period);
+
+        const countTag = (arr, field) => {
+          const map = {};
+          arr.forEach((d) => (d[field] || []).forEach((v) => { map[v] = (map[v] || 0) + 1; }));
+          return Object.entries(map).sort((a, b) => b[1] - a[1]);
+        };
+
+        const topSym = countTag(period, 'symptoms').slice(0, 6);
+        const topLoc = countTag(period, 'location').slice(0, 5);
+        const topQual = countTag(period, 'quality').slice(0, 4);
+
+        const snack = avgFor(period, (d) => d.food === 'Snack unterwegs');
+        const noSnack = avgFor(period, (d) => d.food === 'Erst daheim gegessen' || d.food === 'Sehr wenig gegessen');
+        const elvNorm = avgFor(period, (d) => d.elvanse === 'Normal' || d.elvanse === 'Später');
+        const elvPause = avgFor(period, (d) => d.elvanse === 'Pause');
+        const jawHard = avgFor(period, (d) => d.jaw === 'Gepresst / Hart');
+        const jawSoft = avgFor(period, (d) => d.jaw === 'Locker');
+
+        const last30Grid = [];
+        for (let i = 29; i >= 0; i--) {
+          const iso = addDaysISO(todayISO(), -i);
+          const d = store.days[iso];
+          const bg = !d ? '#FFF' : d.nrs === 0 ? '#E8F8EE' : d.nrs <= 3 ? '#EBF7D8' : d.nrs <= 5 ? '#FEF3C7' : d.nrs <= 7 ? '#FED7AA' : '#FECACA';
+          last30Grid.push(`
+            <div class="pr-day" style="background:${bg};">
+              <div style="color:#475569;">${iso.slice(8)}.${iso.slice(5,7)}</div>
+              <div style="font-weight:800;">${d ? d.nrs : '–'}</div>
+              <div>${d && d.medTaken ? 'M' : ''}${d && (d.meta||[]).includes('Periode') ? 'P' : ''}</div>
+            </div>
+          `);
+        }
+
+        const recentQl = store.quicklogs.slice(0, 8);
+        const rangeStr = period.length ? `${formatDateFullDE(period[0].date)} bis ${formatDateFullDE(period[period.length - 1].date)}` : 'Keine Einträge';
+
+        document.getElementById('printReport').innerHTML = `
+          <div class="pr-header">
+            <div>
+              <h1>Kopfschmerz-Verlaufsbericht (KopfLog)</h1>
+              <div style="font-size:9pt;color:#475569;">Zeitraum (bis 60 Tage): ${rangeStr} · Begleitmedikation: Elvanse · Nacht-Bissschiene · Eisen/Vit-D-Substitution</div>
+            </div>
+            <div class="pr-meta">Erstellt am ${formatDateFullDE(todayISO())}<br/>Basis: ${st60.total} dokumentierte Tage</div>
+          </div>
+
+          <div class="pr-kpis">
+            <div class="pr-kpi"><div class="v">${st30.painCount} / ${st30.total}</div><div class="l">Kopfschmerztage (30d)</div></div>
+            <div class="pr-kpi"><div class="v">${st30.avgPain} / 10</div><div class="l">Ø Peak-NRS (Schmerztage, 30d)</div></div>
+            <div class="pr-kpi"><div class="v">${st30.medDays} Tage</div><div class="l">Akut-Medikation (30d · MOH-Check)</div></div>
+            <div class="pr-kpi"><div class="v">${store.hit6.length ? store.hit6[0].score + ' Pkt.' : '–'}</div><div class="l">Letzter HIT-6 (${store.hit6.length ? formatDateFullDE(store.hit6[0].date) : 'offen'})</div></div>
+          </div>
+
+          <div class="pr-two">
+            <div class="pr-box">
+              <h2>Schmerzprofil &amp; Begleitsymptome (60d)</h2>
+              <div style="font-size:9pt;line-height:1.5;">
+                <strong>Lokalisation:</strong> ${topLoc.map(([k,v]) => `${k} (${v}d)`).join(', ') || '–'}<br/>
+                <strong>Qualität:</strong> ${topQual.map(([k,v]) => `${k} (${v}d)`).join(', ') || '–'}<br/>
+                <strong>Begleitsymptome:</strong> ${topSym.map(([k,v]) => `${k} (${v}d)`).join(', ') || '–'}
+              </div>
+            </div>
+            <div class="pr-box">
+              <h2>Kontext- &amp; Trigger-Auswertung (Ø NRS alle Tage)</h2>
+              <table class="pr-table">
+                <tr><th>Faktor</th><th>Vergleich A</th><th>Vergleich B</th></tr>
+                <tr><td>Essen tagsüber</td><td>Snack unterwegs: <b>${snack.avg}</b> (n=${snack.n})</td><td>Erst daheim: <b>${noSnack.avg}</b> (n=${noSnack.n})</td></tr>
+                <tr><td>Elvanse</td><td>Normal/Später: <b>${elvNorm.avg}</b> (n=${elvNorm.n})</td><td>Pause: <b>${elvPause.avg}</b> (n=${elvPause.n})</td></tr>
+                <tr><td>Kiefer tagsüber</td><td>Locker: <b>${jawSoft.avg}</b> (n=${jawSoft.n})</td><td>Gepresst/Hart: <b>${jawHard.avg}</b> (n=${jawHard.n})</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="pr-box" style="margin-bottom:10px;">
+            <h2>30-Tage-Kalender (Zahl = Peak NRS 0–10 · M = Schmerzmittel · P = Periode)</h2>
+            <div class="pr-cal-row">${last30Grid.join('')}</div>
+          </div>
+
+          <div class="pr-box">
+            <h2>Letzte Echtzeit-Zeitstempel (Abfolge Aura / Sicht / Schub / Essen)</h2>
+            ${recentQl.length ? `
+              <table class="pr-table">
+                <tr><th>Datum &amp; Zeit</th><th>Ereignis</th><th>NRS</th><th>Tags / Notiz</th></tr>
+                ${recentQl.map((q) => `<tr><td>${q.date} ${q.time}</td><td>${escapeHtml(q.category)}</td><td>${q.nrs ?? '–'}</td><td>${escapeHtml([...q.tags, q.note].filter(Boolean).join(' · '))}</td></tr>`).join('')}
+              </table>
+            ` : '<div style="font-size:9pt;color:#64748B;">Keine Echtzeit-Einträge vorhanden.</div>'}
+          </div>
+        `;
+        window.print();
+      });
+
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+      }
+
+      // =================================================================
+      // INIT
+      // =================================================================
+      const initT = getTheme();
+      applyTheme(initT.style, initT.mode);
+      initMascotImage();
+      loadDayIntoForm(todayISO());
+      checkBackupBanner();
+      renderBackupMeta();
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
